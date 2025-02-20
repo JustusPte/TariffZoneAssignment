@@ -19,6 +19,5 @@ pip install -r requirements.txt
 ```
 
 
-## Contact
-For any questions or contributions, please reach out to the repository maintainer.
+
 

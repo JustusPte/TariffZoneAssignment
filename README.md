@@ -10,13 +10,6 @@ A problem instance is modeled as a graph, with a set of commodities representing
 - `Rechenstudie_MGG_BA.py`: Implementation of heuristics and Mixed Integer Program solver.
 - `experiments.py`: Here the parameters of the experimens, I conducted, are shown
 
-## Requirements
-
-Ensure you have the following dependencies installed before running the scripts:
-
-```sh
-pip install -r requirements.txt
-```
 
 
 

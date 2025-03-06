@@ -10,7 +10,7 @@ import pickle
 import pandas as pd
 import csv
 
-#TODO def computeGS():
+
 
 #original MGG algorithm
 def MGG(G,commodities):
@@ -18,7 +18,7 @@ def MGG(G,commodities):
     original MGG algorithm
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
 
     returns: cut set S
     """
@@ -77,7 +77,7 @@ def computeOptimum(G,commodities,s):
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     s cut set
 
     returns: optimum
@@ -97,7 +97,7 @@ def MGG_updated(G, commodities):
     """"
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
 
     returns:
     List of profits(j) ,here j is number of edges in cut set
@@ -168,7 +168,7 @@ def Greedy_IP_combined(G,commodities):
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     returns: IP model, cut set
     """
     
@@ -228,7 +228,7 @@ def MGG_Remove_Commodity(G, commodities, cut_set = set(), greedyScores = dict(),
     """"
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     List of greedyScores of each iteration
     List of intersection_commodity_cut_set of each iteration (counts number of cuts on each commodities path)
     
@@ -350,7 +350,7 @@ def solve_LP(G, commodities, M):
     """
     param:
     G Graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     M offset
 
     returns: model, cut_set
@@ -410,7 +410,7 @@ def solve_IP(G, commodities, M):
     """
     param:
     G Graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     M offset
 
     returns: model, cut_set
@@ -511,7 +511,7 @@ def MGG_updated_with_timer(G, commodities):
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
 
     returns: 
     optimal revenue
@@ -537,7 +537,7 @@ def MGG_Remove_Commodity_with_timer(g,commodities,cut_set,Greedy_scores_iter_opt
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     optimal cut_set (given by MGG_updated)
     Greedy Scores of iteration with optimal revenue (given by MGG_updated)
     Intersection_commodity_cut_set of iteration with optimal revenue (given by MGG_updated)
@@ -561,7 +561,7 @@ def Greedy_IP_combined_with_timer(G, commodities):
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
 
     returns:
     IP model
@@ -581,7 +581,7 @@ def solve_IP_with_timer(G, commodities, M):
     """
     param:
     G should be a graph instance
-    commodities should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities should be triples (P_i,w_i,c_i), i \in C
     M offset
 
     returns:
@@ -694,11 +694,12 @@ def fixedSize_MGG_IP_comparison(anz_nodes,num_iterations):
     return ip_time_total,mgg_1_time_total,Greedy_IP_combined_time_total,mgg_3_time_total
 
 #runs a whole testset of instances and stores results
-def run_instance_set(starting_instance_size = 2, ending_instance_size = 10, num_instances = 10,runtimes_file_name = "runtime.csv", pickle_file_name = "results_instance_size_"):
+def run_instance_set(starting_instance_size = 2, ending_instance_size = 10, step_size = 1, num_instances = 10,runtimes_file_name = "runtime.csv", pickle_file_name = "results_instance_size_"):
     """
     param:
     starting_instance_size: smallest instance size (int)
     ending_instance_size: largest instance size (int)
+    step_size: number by which instance increases in each iteration (int)
     num_instances: number of instances for each instance size (int)
     runtimes_file_name: name of the file to store the runtimes (str)
     pickle_file_name: name of the file to store the results
@@ -707,7 +708,7 @@ def run_instance_set(starting_instance_size = 2, ending_instance_size = 10, num_
     with open(runtimes_file_name, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Instance Size', 'IP Time', 'MGG_1 Time', 'Greedy IP Combined Time', 'MGG_3 Time'])
-    for i in tqdm(range(starting_instance_size,ending_instance_size+1)):
+    for i in tqdm(range(starting_instance_size,ending_instance_size+1,step_size)):
         
         ip_time_total,mgg_1_time_total,Greedy_IP_combined_time_total,mgg_3_time_total = fixedSize_MGG_IP_comparison(i,num_instances)
         

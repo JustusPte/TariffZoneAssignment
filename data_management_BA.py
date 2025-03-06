@@ -22,7 +22,7 @@ def store_results_IP_Greedy_variants(instance_size,commodities,IP_value,MGG_upda
     """
     param:
     instance_size: number of nodes (int)
-    commodities: list of commodities - should be triples (P_i,w_i,c_i)i \in [1,k]
+    commodities: list of commodities - should be triples (P_i,w_i,c_i), i \in C
     IP_value: the value of the IP (int)
     MGG_updated_value: the value of the MGG_updated (int)
     MGG_remove_commodity_value: the value of the MGG_remove_commodity (int)
@@ -71,7 +71,11 @@ def load_results_and_plot(pickle_directory_path):
     # Sort the data by instance size
     sorted_data = sorted(zip(x_combined, y1_combined, y2_combined, y3_combined))
     x_combined, y1_combined, y2_combined, y3_combined = zip(*sorted_data)
-
+    
+    #compute performance ratio
+    y1_combined = [1/value for value in y1_combined]
+    y2_combined = [1/value for value in y2_combined]
+    y3_combined = [1/value for value in y3_combined]
 
     # Create a plot
     plt.figure(figsize=(10, 6))
@@ -85,10 +89,12 @@ def load_results_and_plot(pickle_directory_path):
     # Add labels, title, and legend
     plt.legend()
     plt.grid()
+
     plt.xlabel('Number of nodes',fontsize=12)
-    plt.ylabel(r'$\frac{c_{IP}(I)}{c_{MGG}(I)}$',fontsize=18,rotation=0,labelpad=16)
-    # Save the figure
-    #plt.savefig("new_runtime_analysis2/Big_test_set_results2.png", format='png',dpi=300)
+
+    ax = plt.gca()  # Get current axis
+    ax.set_ylabel(r"$\frac{c_{ALG}(I)}{c_{IP}(I)}$", fontsize=18, rotation=0, labelpad=17)
+    ax.yaxis.label.set_position((-0.1, 0.45))
 
     plt.show()
     
@@ -123,39 +129,27 @@ def read_runtimes_and_plot(filename):
 
 
     # Add labels, title, and legend
-    plt.xlabel("Number of nodes")
-    plt.ylabel("Runtime (seconds)")
+    plt.xlabel("Number of nodes",fontsize=12)
+    plt.ylabel("Runtime (seconds)",fontsize=12)
 
     plt.legend()
 
     # Show the grid for better readability
     plt.grid(True)
-    #plt.savefig("total_runtime_plot.png", dpi=300)
+
     # Display the plot
     plt.show()
     
 
-
-    # Create the first plot with IP and MGG_RC
-    plt.figure(figsize=(10, 6))
-    plt.plot(instance_sizes, ip_time_total, label="IP",color="blue")
-    plt.plot(instance_sizes, mgg_3_time_total, label=r"MGG$_{\mathrm{RC}}$",color="orange")
-
-    plt.xlabel('Instance Size')
-    plt.ylabel('Runtime (seconds)')
-    plt.legend()
-    plt.grid(True)
-    #plt.savefig('IP_MGG_RC_plot.png', dpi=300)
-    plt.show()
 
     # Create the second plot with MGG_u and MGG_IP
     plt.figure(figsize=(10, 6))
     plt.plot(instance_sizes, mgg_1_time_total, label=r"MGG$_{\mathrm{u}}$",color="green")
     plt.plot(instance_sizes, Greedy_IP_combined_time_total, label=r"MGG$_{\mathrm{IP}}$",color="red")
 
-    plt.xlabel('Instance Size')
-    plt.ylabel('Runtime (seconds)')
+    plt.xlabel('Instance Size',fontsize=12)
+    plt.ylabel('Runtime (seconds)',fontsize=12)
     plt.legend()
     plt.grid(True)
-    plt.savefig('Test2_MGG_u_MGG_IP_plot.png', dpi=300)
+
     plt.show()

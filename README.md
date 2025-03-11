@@ -9,7 +9,7 @@ A problem instance is modeled as a graph, with a set of commodities representing
 - `data_management_BA.py`: Handles data processing tasks such as loading, transforming, and storing data.
 - `Rechenstudie_MGG_BA.py`: Implementation of heuristics and Mixed Integer Program solver.
 - `experiments.py`: Here the parameters of the experimens, I conducted, are shown
-- - `Results`: Stores results of both test sets in pickle files.
+- `Results`: Stores results of both test sets in pickle files.
 
 
 
